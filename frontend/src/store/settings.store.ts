@@ -25,7 +25,7 @@ interface SettingsState {
 
 export const useSettingsStore = create<SettingsState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       country: 'india',
       language: 'en',
       plainLanguageMode: false,
