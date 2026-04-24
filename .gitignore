@@ -1,0 +1,12 @@
+node_modules/
+dist/
+build/
+.env
+*.log
+package-lock.json
+yarn.lock
+.dart_tool/
+*.png
+*.jpg
+coverage/
+.DS_Store
