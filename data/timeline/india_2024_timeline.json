@@ -1,0 +1,85 @@
+{
+  "timelineId": "india_ls_2024",
+  "nodes": [
+    {
+      "id": "node_announcement",
+      "label": "Announcement",
+      "date": "2024-03-16",
+      "description": "ECI announces the election schedule.",
+      "expandedContent": "The Election Commission of India holds a press conference to announce the full schedule of the elections, including all polling phases and counting dates.",
+      "icon": "megaphone",
+      "color": "blue-500",
+      "position": 1
+    },
+    {
+      "id": "node_mcc",
+      "label": "MCC Begins",
+      "date": "2024-03-16",
+      "description": "The Model Code of Conduct comes into force.",
+      "expandedContent": "Starts the same day as election announcement. Ends after counting is complete. Government cannot announce new welfare schemes or use government vehicles for campaigns.",
+      "icon": "scroll",
+      "color": "amber-500",
+      "position": 2
+    },
+    {
+      "id": "node_nomination",
+      "label": "Nominations",
+      "date": "2024-03-20 to 2024-05-14",
+      "description": "Candidates file their nomination papers.",
+      "expandedContent": "Candidates submit their nomination forms along with affidavits detailing their assets, liabilities, and any criminal records to the Returning Officer. Deadlines vary per phase.",
+      "icon": "file-text",
+      "color": "indigo-500",
+      "position": 3
+    },
+    {
+      "id": "node_scrutiny",
+      "label": "Scrutiny",
+      "date": "Varies per phase",
+      "description": "Returning Officer verifies nominations.",
+      "expandedContent": "The Returning Officer checks all submitted nomination papers to ensure they meet legal requirements. Invalid nominations are rejected.",
+      "icon": "check-circle",
+      "color": "teal-500",
+      "position": 4
+    },
+    {
+      "id": "node_withdrawal",
+      "label": "Withdrawal",
+      "date": "Varies per phase",
+      "description": "Candidates can withdraw their names.",
+      "expandedContent": "Candidates are given a few days after scrutiny to formally withdraw their candidacy if they choose not to contest.",
+      "icon": "user-minus",
+      "color": "orange-500",
+      "position": 5
+    },
+    {
+      "id": "node_voting",
+      "label": "Voting Phases",
+      "date": "2024-04-19 to 2024-06-01",
+      "description": "Polling takes place across 7 phases.",
+      "expandedContent": "Voters cast their votes using EVMs at designated polling booths. The staggered phases allow for the movement of security forces across the country.",
+      "icon": "box",
+      "color": "india-green",
+      "position": 6
+    },
+    {
+      "id": "node_counting",
+      "label": "Counting",
+      "date": "2024-06-04",
+      "description": "Votes are counted and results declared.",
+      "expandedContent": "EVMs are brought to counting centers. The votes are tallied under the supervision of the Returning Officer and candidate agents. Results are declared constituency by constituency.",
+      "icon": "bar-chart-2",
+      "color": "purple-500",
+      "position": 7
+    },
+    {
+      "id": "node_swearing_in",
+      "label": "Swearing In",
+      "date": "Post-Results",
+      "description": "The new government takes office.",
+      "expandedContent": "The party or coalition with a majority in the Lok Sabha stakes a claim to form the government, and the President administers the oath of office to the Prime Minister and Council of Ministers.",
+      "icon": "flag",
+      "color": "india-blue",
+      "position": 8
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "country": "USA",
+  "faqs": [
+    {
+      "id": "faq_us_01",
+      "question": "How often are US Presidential elections held?",
+      "answer": "US Presidential elections are held every four years, typically on the first Tuesday after the first Monday in November.",
+      "category": "General"
+    },
+    {
+      "id": "faq_us_02",
+      "question": "What is the Electoral College?",
+      "answer": "The Electoral College is a process where 538 electors cast votes to decide the President. A candidate needs a majority of 270 electoral votes to win.",
+      "category": "System"
+    },
+    {
+      "id": "faq_us_03",
+      "question": "Do I need an ID to vote in the US?",
+      "answer": "Voter ID laws vary significantly by state. Some states require strict photo ID, while others require no physical ID at all to cast a ballot.",
+      "category": "Voting Day"
+    },
+    {
+      "id": "faq_us_04",
+      "question": "Can I vote by mail?",
+      "answer": "Yes, but the rules vary by state. Some states conduct elections entirely by mail, while others require a specific excuse to request an absentee ballot.",
+      "category": "Voting Methods"
+    },
+    {
+      "id": "faq_us_05",
+      "question": "How do I register to vote?",
+      "answer": "You can register online, by mail, or in person. Requirements and deadlines vary by state. Many states also offer same-day voter registration.",
+      "category": "Registration"
+    },
+    {
+      "id": "faq_us_06",
+      "question": "What is early voting?",
+      "answer": "Early voting allows registered voters to cast their ballots in person on certain days before the official Election Day. Availability depends on the state.",
+      "category": "Voting Methods"
+    },
+    {
+      "id": "faq_us_07",
+      "question": "Can US citizens living abroad vote?",
+      "answer": "Yes, US citizens living abroad can vote via absentee ballot under the Uniformed and Overseas Citizens Absentee Voting Act (UOCAVA).",
+      "category": "Registration"
+    },
+    {
+      "id": "faq_us_08",
+      "question": "What are primary elections?",
+      "answer": "Primaries are state-level elections where voters choose which candidates will represent their political party in the general election.",
+      "category": "System"
+    },
+    {
+      "id": "faq_us_09",
+      "question": "How are members of Congress elected?",
+      "answer": "Members of the House of Representatives serve 2-year terms and are elected directly by voters in their districts. Senators serve 6-year terms, with one-third of the Senate elected every two years.",
+      "category": "System"
+    },
+    {
+      "id": "faq_us_10",
+      "question": "Who administers elections in the US?",
+      "answer": "Elections are primarily administered at the local (county or city) and state levels, leading to diverse voting equipment and rules across the country.",
+      "category": "System"
+    }
+  ]
+}

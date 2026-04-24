@@ -1,0 +1,65 @@
+{
+  "country": "UK",
+  "faqs": [
+    {
+      "id": "faq_uk_01",
+      "question": "How often are UK General Elections held?",
+      "answer": "Under the Dissolution and Calling of Parliament Act 2022, a Parliament can last up to five years, but the Prime Minister can call an early election.",
+      "category": "General"
+    },
+    {
+      "id": "faq_uk_02",
+      "question": "What voting system is used in the UK?",
+      "answer": "The UK uses the First Past The Post (FPTP) system for General Elections. The candidate with the most votes in each constituency becomes the Member of Parliament (MP).",
+      "category": "System"
+    },
+    {
+      "id": "faq_uk_03",
+      "question": "Do I need photo ID to vote in the UK?",
+      "answer": "Yes, following the Elections Act 2022, voters in Great Britain now need to show accepted photo ID to vote at polling stations in General Elections.",
+      "category": "Voting Day"
+    },
+    {
+      "id": "faq_uk_04",
+      "question": "Who is eligible to vote?",
+      "answer": "British citizens, qualifying Commonwealth citizens, and Republic of Ireland citizens resident in the UK, aged 18 or over, and registered to vote.",
+      "category": "Registration"
+    },
+    {
+      "id": "faq_uk_05",
+      "question": "How do I register to vote?",
+      "answer": "You can register to vote online at gov.uk/register-to-vote. It takes about 5 minutes and you usually need your National Insurance number.",
+      "category": "Registration"
+    },
+    {
+      "id": "faq_uk_06",
+      "question": "Can I vote by post?",
+      "answer": "Yes, anyone registered to vote can apply for a postal vote without needing to provide a specific reason.",
+      "category": "Voting Methods"
+    },
+    {
+      "id": "faq_uk_07",
+      "question": "What is a proxy vote?",
+      "answer": "A proxy vote is when you appoint someone you trust to vote on your behalf at your polling station.",
+      "category": "Voting Methods"
+    },
+    {
+      "id": "faq_uk_08",
+      "question": "How is the Prime Minister chosen?",
+      "answer": "The Prime Minister is not directly elected. The monarch appoints the leader of the political party most likely to command a majority in the House of Commons.",
+      "category": "System"
+    },
+    {
+      "id": "faq_uk_09",
+      "question": "Can British citizens abroad vote?",
+      "answer": "Yes, British citizens living abroad can register as overseas voters and vote in UK parliamentary elections, recently expanded to remove the 15-year limit.",
+      "category": "Registration"
+    },
+    {
+      "id": "faq_uk_10",
+      "question": "Who oversees UK elections?",
+      "answer": "The Electoral Commission is the independent body which oversees elections and regulates political finance in the UK.",
+      "category": "System"
+    }
+  ]
+}

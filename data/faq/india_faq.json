@@ -1,0 +1,125 @@
+{
+  "country": "India",
+  "faqs": [
+    {
+      "id": "faq_01",
+      "question": "What IDs are accepted for voting?",
+      "answer": "You can vote using your EPIC (Voter ID card). If you don't have it, 12 other IDs are accepted, including Aadhaar Card, Driving Licence, PAN Card, and Indian Passport. Your name MUST be on the electoral roll.",
+      "category": "Voting Day"
+    },
+    {
+      "id": "faq_02",
+      "question": "How do I check if my name is on the voter list?",
+      "answer": "You can check your name online at voterportal.eci.gov.in, use the Voter Helpline App, or call the toll-free number 1950.",
+      "category": "Registration"
+    },
+    {
+      "id": "faq_03",
+      "question": "Can I vote online?",
+      "answer": "No, India does not currently allow online voting for general elections. You must visit your designated polling booth in person. Certain eligible categories like service personnel can use postal ballots.",
+      "category": "Voting Day"
+    },
+    {
+      "id": "faq_04",
+      "question": "What is NOTA?",
+      "answer": "NOTA stands for 'None of the Above'. It is an option on the voting machine that allows you to officially register your disapproval of all candidates contesting in your constituency.",
+      "category": "Voting Process"
+    },
+    {
+      "id": "faq_05",
+      "question": "Where is my polling booth?",
+      "answer": "You can find your exact polling booth location using the ECI Voter Helpline App or the official voter portal by entering your EPIC (Voter ID) number.",
+      "category": "Voting Day"
+    },
+    {
+      "id": "faq_06",
+      "question": "What is the Model Code of Conduct (MCC)?",
+      "answer": "The MCC is a set of guidelines issued by the Election Commission regulating the conduct of political parties and candidates to ensure free and fair elections.",
+      "category": "Election Rules"
+    },
+    {
+      "id": "faq_07",
+      "question": "What is a VVPAT?",
+      "answer": "VVPAT (Voter Verifiable Paper Audit Trail) is an independent system attached to the EVM that prints a paper slip confirming your vote. The slip is visible for 7 seconds before falling into a sealed box.",
+      "category": "EVMs"
+    },
+    {
+      "id": "faq_08",
+      "question": "Can NRIs vote?",
+      "answer": "Yes, NRIs holding an Indian passport can register as overseas electors. However, they must be physically present at their designated polling booth in India to cast their vote.",
+      "category": "Registration"
+    },
+    {
+      "id": "faq_09",
+      "question": "What happens if I press the wrong button on the EVM?",
+      "answer": "Once a button is pressed and the beep is heard, the vote is recorded and cannot be changed. Take your time to ensure you press the correct button.",
+      "category": "EVMs"
+    },
+    {
+      "id": "faq_10",
+      "question": "At what age can I vote?",
+      "answer": "You must be 18 years or older on the qualifying date (usually January 1 of the year of the electoral roll revision) to be eligible to vote.",
+      "category": "Registration"
+    },
+    {
+      "id": "faq_11",
+      "question": "What are the timings for voting?",
+      "answer": "Voting typically takes place from 7:00 AM to 6:00 PM, though this may vary slightly depending on the constituency and local conditions.",
+      "category": "Voting Day"
+    },
+    {
+      "id": "faq_12",
+      "question": "What is the silence period?",
+      "answer": "The silence period is the 48 hours immediately preceding the conclusion of polling. During this time, all public campaigning, rallies, and political meetings are prohibited.",
+      "category": "Election Rules"
+    },
+    {
+      "id": "faq_13",
+      "question": "Can a candidate contest from multiple constituencies?",
+      "answer": "Yes, under current rules, a candidate can contest from a maximum of two constituencies in a Lok Sabha or State Assembly election.",
+      "category": "Candidates"
+    },
+    {
+      "id": "faq_14",
+      "question": "What happens in a hung parliament?",
+      "answer": "If no party or pre-poll alliance secures a clear majority, the President invites the single largest party or coalition to form a government and prove its majority on the floor of the house.",
+      "category": "Results"
+    },
+    {
+      "id": "faq_15",
+      "question": "How are EVMs secured?",
+      "answer": "EVMs are kept in highly secure strong rooms with 24x7 CCTV surveillance, multiple locks, and armed guard protection. Representatives of political parties are allowed to monitor the strong rooms.",
+      "category": "EVMs"
+    },
+    {
+      "id": "faq_16",
+      "question": "Who can use postal ballots?",
+      "answer": "Postal ballots are available for service voters (like armed forces), election duty staff, and specific notified categories such as senior citizens (85+) and persons with disabilities.",
+      "category": "Voting Process"
+    },
+    {
+      "id": "faq_17",
+      "question": "Is it mandatory to vote?",
+      "answer": "No, voting is a constitutional right in India, not a legal obligation. However, it is strongly encouraged as a civic duty.",
+      "category": "Voting Process"
+    },
+    {
+      "id": "faq_18",
+      "question": "What is an election symbol?",
+      "answer": "An election symbol is a standardized image allocated to a political party or independent candidate. It helps voters easily identify the candidate of their choice on the EVM.",
+      "category": "Candidates"
+    },
+    {
+      "id": "faq_19",
+      "question": "How is the Chief Election Commissioner appointed?",
+      "answer": "The CEC is appointed by the President of India on the recommendation of a selection committee.",
+      "category": "Election Rules"
+    },
+    {
+      "id": "faq_20",
+      "question": "What should I do if someone offers me money to vote?",
+      "answer": "Bribery is a serious electoral offence. You should immediately report it using the ECI's cVIGIL app or call the 1950 helpline.",
+      "category": "Election Rules"
+    }
+  ]
+}

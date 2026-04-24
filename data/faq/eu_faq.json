@@ -1,0 +1,65 @@
+{
+  "country": "EU",
+  "faqs": [
+    {
+      "id": "faq_eu_01",
+      "question": "How often are European Parliament elections held?",
+      "answer": "European Parliament elections are held every five years across all EU Member States.",
+      "category": "General"
+    },
+    {
+      "id": "faq_eu_02",
+      "question": "Who are we voting for?",
+      "answer": "You are voting to elect Members of the European Parliament (MEPs) who represent your interests at the European level.",
+      "category": "System"
+    },
+    {
+      "id": "faq_eu_03",
+      "question": "What voting system is used?",
+      "answer": "Elections must be based on proportional representation, but each Member State decides the exact system (e.g., open or closed lists, or single transferable vote).",
+      "category": "System"
+    },
+    {
+      "id": "faq_eu_04",
+      "question": "Who can vote?",
+      "answer": "Every EU citizen registered to vote. You can choose to vote in your home country or in the EU country where you live.",
+      "category": "Registration"
+    },
+    {
+      "id": "faq_eu_05",
+      "question": "Is voting compulsory?",
+      "answer": "Voting is compulsory in a few Member States (like Belgium, Luxembourg, and Greece), but in most, it is a right, not an obligation.",
+      "category": "Voting Rules"
+    },
+    {
+      "id": "faq_eu_06",
+      "question": "Can I vote in two countries?",
+      "answer": "No. Double voting is strictly prohibited. You must choose whether to vote for candidates in your country of origin or your country of residence.",
+      "category": "Voting Rules"
+    },
+    {
+      "id": "faq_eu_07",
+      "question": "At what age can I vote?",
+      "answer": "In most EU countries, the voting age is 18. However, in Austria, Belgium, Germany, and Malta it is 16, and in Greece it is 17.",
+      "category": "Registration"
+    },
+    {
+      "id": "faq_eu_08",
+      "question": "How are seats allocated to each country?",
+      "answer": "Seats are allocated based on 'degressive proportionality'—larger countries have more MEPs, but smaller countries have more MEPs per capita.",
+      "category": "System"
+    },
+    {
+      "id": "faq_eu_09",
+      "question": "Can I vote by post or proxy?",
+      "answer": "This depends entirely on national law. Some countries allow postal, proxy, or even electronic voting, while others require in-person voting.",
+      "category": "Voting Methods"
+    },
+    {
+      "id": "faq_eu_10",
+      "question": "What do MEPs actually do?",
+      "answer": "MEPs shape and decide on new European laws alongside the Council of the EU, vote on the EU budget, and supervise EU institutions.",
+      "category": "General"
+    }
+  ]
+}

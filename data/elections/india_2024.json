@@ -1,0 +1,65 @@
+{
+  "election": {
+    "name": "18th Lok Sabha General Election",
+    "year": 2024,
+    "totalSeats": 543,
+    "totalPhases": 7,
+    "phases": [
+      {
+        "phaseNumber": 1,
+        "pollingDate": "2024-04-19",
+        "statesIncluded": ["Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar"],
+        "seatsVoted": 102
+      },
+      {
+        "phaseNumber": 2,
+        "pollingDate": "2024-04-26",
+        "statesIncluded": ["Kerala", "Karnataka", "Rajasthan"],
+        "seatsVoted": 89
+      },
+      {
+        "phaseNumber": 3,
+        "pollingDate": "2024-05-07",
+        "statesIncluded": ["Goa", "Gujarat", "Madhya Pradesh"],
+        "seatsVoted": 94
+      },
+      {
+        "phaseNumber": 4,
+        "pollingDate": "2024-05-13",
+        "statesIncluded": ["Andhra Pradesh", "Jharkhand", "Madhya Pradesh"],
+        "seatsVoted": 96
+      },
+      {
+        "phaseNumber": 5,
+        "pollingDate": "2024-05-20",
+        "statesIncluded": ["Jharkhand", "Uttarakhand", "West Bengal"],
+        "seatsVoted": 49
+      },
+      {
+        "phaseNumber": 6,
+        "pollingDate": "2024-05-25",
+        "statesIncluded": ["Bihar", "Haryana", "Delhi"],
+        "seatsVoted": 58
+      },
+      {
+        "phaseNumber": 7,
+        "pollingDate": "2024-06-01",
+        "statesIncluded": ["Bihar", "Chandigarh", "Himachal Pradesh", "Punjab"],
+        "seatsVoted": 57
+      }
+    ],
+    "keyDates": {
+      "scheduleAnnounced": "2024-03-16",
+      "mccBegan": "2024-03-16",
+      "firstPollingDay": "2024-04-19",
+      "lastPollingDay": "2024-06-01",
+      "countingDay": "2024-06-04",
+      "resultsDeclared": "2024-06-04"
+    },
+    "winner": {
+      "party": "BJP-led NDA",
+      "seatsWon": 293,
+      "majorityMark": 272
+    }
+  }
+}

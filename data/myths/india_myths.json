@@ -1,0 +1,84 @@
+{
+  "myths": [
+    {
+      "id": "myth_001",
+      "myth": "EVMs can be hacked remotely via Bluetooth",
+      "triggerPhrases": ["evm hack", "bluetooth", "remote control", "manipulate wifi"],
+      "rebuttal": "EVMs are standalone machines with no wireless communication capabilities (no WiFi, no Bluetooth, no RF receivers). The software is permanently burned into read-only memory chips.",
+      "source": "ECI EVM Technical Whitepaper",
+      "sourceUrl": "https://eci.gov.in/files/file/XXXX-evm-whitepaper/"
+    },
+    {
+      "id": "myth_002",
+      "myth": "NRIs can vote online in Indian elections",
+      "triggerPhrases": ["nri online voting", "vote from abroad", "overseas voting online"],
+      "rebuttal": "NRIs cannot vote online. While they can register as overseas electors, they must be physically present at their designated polling booth in India to cast their vote.",
+      "source": "Representation of the People Act, 1951",
+      "sourceUrl": "https://eci.gov.in"
+    },
+    {
+      "id": "myth_003",
+      "myth": "If I am not on the voter list, I can show my Aadhaar card and vote",
+      "triggerPhrases": ["aadhaar vote", "not on list but have aadhaar", "aadhaar enough to vote"],
+      "rebuttal": "Having an Aadhaar card is not enough to vote. Your name MUST be registered in the electoral roll of your constituency. The Aadhaar card can only be used as a proof of identity at the booth if your name is already on the voter list.",
+      "source": "ECI Guidelines",
+      "sourceUrl": "https://eci.gov.in"
+    },
+    {
+      "id": "myth_004",
+      "myth": "NOTA can win an election",
+      "triggerPhrases": ["nota wins", "nota majority", "highest nota votes"],
+      "rebuttal": "NOTA cannot 'win' an election. Even if NOTA receives the highest number of votes, the candidate with the next highest number of votes is declared the winner.",
+      "source": "Supreme Court Order 2013",
+      "sourceUrl": "https://eci.gov.in"
+    },
+    {
+      "id": "myth_005",
+      "myth": "You can vote multiple times if you have ink removed",
+      "triggerPhrases": ["remove ink", "vote twice", "double voting"],
+      "rebuttal": "Double voting is a criminal offence. The indelible ink used is designed to last for weeks and cannot be easily removed. Additionally, polling officers cross-check your name on the electoral roll.",
+      "source": "ECI Polling Guidelines",
+      "sourceUrl": "https://eci.gov.in"
+    },
+    {
+      "id": "myth_006",
+      "myth": "Government can announce new schemes during elections",
+      "triggerPhrases": ["new schemes during election", "announce welfare", "mcc schemes"],
+      "rebuttal": "Once the Model Code of Conduct (MCC) is in effect, the ruling government cannot announce any new financial grants, lay foundation stones for new projects, or promise new schemes that could influence voters.",
+      "source": "Model Code of Conduct",
+      "sourceUrl": "https://eci.gov.in"
+    },
+    {
+      "id": "myth_007",
+      "myth": "You need your physical Voter ID to vote",
+      "triggerPhrases": ["lost voter id", "no epic", "forgot voter card"],
+      "rebuttal": "While the Voter ID (EPIC) is preferred, if your name is on the electoral roll, you can vote using any of the 12 other accepted identity documents, such as an Aadhaar card, PAN card, or Driving Licence.",
+      "source": "ECI Guidelines",
+      "sourceUrl": "https://eci.gov.in"
+    },
+    {
+      "id": "myth_008",
+      "myth": "VVPAT slips can be taken home",
+      "triggerPhrases": ["take vvpat slip", "keep receipt", "vvpat home"],
+      "rebuttal": "VVPAT slips cannot be taken home. The slip is visible for about 7 seconds through a transparent window before it automatically cuts and falls into a sealed drop box.",
+      "source": "ECI EVM Manual",
+      "sourceUrl": "https://eci.gov.in"
+    },
+    {
+      "id": "myth_009",
+      "myth": "EVM source code is proprietary and hidden",
+      "triggerPhrases": ["evm source code", "hidden code", "secret software"],
+      "rebuttal": "The EVM source code is independently reviewed by a Technical Expert Committee of eminent professors and is maintained under strict security. It is not open source for security reasons, but it is deeply audited.",
+      "source": "ECI EVM FAQ",
+      "sourceUrl": "https://eci.gov.in"
+    },
+    {
+      "id": "myth_010",
+      "myth": "Only the Prime Minister appoints the Election Commission",
+      "triggerPhrases": ["pm appoints eci", "government appoints eci", "cec appointment"],
+      "rebuttal": "As per recent legislation, Election Commissioners are appointed by the President on the recommendation of a selection committee consisting of the Prime Minister, a Union Cabinet Minister, and the Leader of the Opposition in the Lok Sabha.",
+      "source": "Chief Election Commissioner and Other Election Commissioners Act, 2023",
+      "sourceUrl": "https://egazette.gov.in"
+    }
+  ]
+}
