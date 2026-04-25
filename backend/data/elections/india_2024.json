@@ -1,0 +1,29 @@
+{
+  "election": {
+    "name": "18th Lok Sabha General Election",
+    "year": 2024,
+    "totalSeats": 543,
+    "totalPhases": 7,
+    "phases": [
+      {
+        "phaseNumber": 1,
+        "pollingDate": "2024-04-19",
+        "statesIncluded": ["Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar"],
+        "seatsVoted": 102
+      }
+    ],
+    "keyDates": {
+      "scheduleAnnounced": "2024-03-16",
+      "mccBegan": "2024-03-16",
+      "firstPollingDay": "2024-04-19",
+      "lastPollingDay": "2024-06-01",
+      "countingDay": "2024-06-04",
+      "resultsDeclared": "2024-06-04"
+    },
+    "winner": {
+      "party": "BJP-led NDA",
+      "seatsWon": 293,
+      "majorityMark": 272
+    }
+  }
+}

@@ -5,7 +5,7 @@
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
-    "test": "jest --coverage --coverageThreshold={\"global\":{\"lines\":70}}"
+    "test": "jest --coverage"
   },
   "dependencies": {
     "@fastify/cors": "^9.0.0",

@@ -1,0 +1,11 @@
+{
+  "country": "India",
+  "faqs": [
+    {
+      "id": "faq_01",
+      "question": "What IDs are accepted for voting?",
+      "answer": "You can vote using your EPIC (Voter ID card). If you don't have it, 12 other IDs are accepted, including Aadhaar Card, Driving Licence, PAN Card, and Indian Passport. Your name MUST be on the electoral roll.",
+      "category": "Voting Day"
+    }
+  ]
+}

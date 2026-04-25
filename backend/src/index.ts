@@ -41,7 +41,7 @@ async function bootstrap(): Promise<void> {
 
   // CORS
   await fastify.register(cors, {
-    origin: process.env.FRONTEND_URL ?? '*',
+    origin: true, // Allow all origins for demo
     methods: ['GET', 'POST', 'OPTIONS'],
   })
 

@@ -1,0 +1,15 @@
+{
+  "timelineId": "india_ls_2024",
+  "nodes": [
+    {
+      "id": "node_mcc",
+      "label": "MCC Begins",
+      "date": "2024-03-16",
+      "description": "The Model Code of Conduct comes into force.",
+      "expandedContent": "Starts the same day as election announcement. Ends after counting is complete. Government cannot announce new welfare schemes or use government vehicles for campaigns.",
+      "icon": "scroll",
+      "color": "amber-500",
+      "position": 2
+    }
+  ]
+}

@@ -20,9 +20,9 @@ export function LoadingDots({ color = 'bg-saffron', size = 'md' }: LoadingDotsPr
       role="status"
       aria-label="Loading"
     >
-      <div className={`${baseDotClass} animate-bounce`} style={{ animationDelay: '0ms' }} />
-      <div className={`${baseDotClass} animate-bounce`} style={{ animationDelay: '150ms' }} />
-      <div className={`${baseDotClass} animate-bounce`} style={{ animationDelay: '300ms' }} />
+      <div data-testid="dot" className={`${baseDotClass} animate-bounce`} style={{ animationDelay: '0ms' }} />
+      <div data-testid="dot" className={`${baseDotClass} animate-bounce`} style={{ animationDelay: '150ms' }} />
+      <div data-testid="dot" className={`${baseDotClass} animate-bounce`} style={{ animationDelay: '300ms' }} />
     </div>
   );
 }
