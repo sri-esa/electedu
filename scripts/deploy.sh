@@ -5,7 +5,7 @@
 set -e  # Exit on any error
 
 # ── CONFIGURATION ──────────────────────────────────────
-PROJECT_ID=${PROJECT_ID:-"crowd-management-system-492802"}
+PROJECT_ID=${PROJECT_ID:-"election-education-system"}
 REGION=${REGION:-"us-central1"}
 BACKEND_SERVICE="electedu-backend"
 FRONTEND_SERVICE="electedu-frontend"
