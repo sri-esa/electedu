@@ -29,6 +29,8 @@ describe('AppShell', () => {
                 <div>Test</div>
             </AppShell>
         )
-        expect(screen.getByText(/ElectEdu/i)).toBeInTheDocument()
+        const elements = screen.getAllByText(/ElectEdu/i)
+        expect(elements.length).toBeGreaterThan(0)
+        expect(elements[0]).toBeInTheDocument()
     })
 })

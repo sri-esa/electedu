@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react'
+import { vi } from 'vitest'
 import { ElectionTimeline } from '../components/timeline/ElectionTimeline'
 
 // Mock fetch for timeline data
-global.fetch = jest.fn().mockResolvedValue({
+global.fetch = vi.fn().mockResolvedValue({
     ok: true,
     json: async () => ({
         nodes: [
@@ -26,13 +27,9 @@ describe('ElectionTimeline', () => {
         expect(document.body).toBeTruthy()
     })
 
-    it('shows timeline title or loading state', () => {
+    it('shows timeline title after loading', async () => {
         render(<ElectionTimeline />)
-        expect(
-            screen.getByText(/timeline/i) ||
-            screen.getByText(/election/i) ||
-            screen.getByRole('status') ||
-            document.querySelector('[aria-label]')
-        ).toBeTruthy()
+        const element = await screen.findByText(/Election Timeline/i)
+        expect(element).toBeInTheDocument()
     })
 })
