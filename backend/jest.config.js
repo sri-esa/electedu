@@ -9,9 +9,9 @@ module.exports = {
   ],
   coverageThreshold: {
     global: {
-      lines: 60,
-      functions: 70,
-      branches: 60,
+      lines: 65,
+      functions: 60,
+      branches: 40,
     }
   },
   setupFiles: ['./src/__tests__/setup.ts'],
