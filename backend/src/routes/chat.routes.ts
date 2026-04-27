@@ -2,11 +2,16 @@
  * Chat Routes — POST /api/chat
  * Implements: REQ-01 (Gemini conversation), REQ-02 (accuracy)
  */
-import { FastifyInstance, FastifyRequest } from 'fastify'
+import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify'
 import { chat, ChatMessage } from '../services/gemini.service'
 import { PromptContext } from '../services/prompt.service'
 import { logEvent } from '../services/pubsub.service'
 import { sanitizeString, isValidCountry } from '../middleware/validate'
+import { HTTP_STATUS, VALIDATION } from '../constants'
+import { ValidationError, ElectEduError } from '../errors'
+import { createLogger } from '../logger'
+
+const logger = createLogger('chat-routes')
 
 interface ChatBody {
   message: string
@@ -17,7 +22,9 @@ interface ChatBody {
 
 /**
  * @description Registers chat route on Fastify instance
- * @param fastify - Fastify server instance
+ * @param {FastifyInstance} fastify - Fastify server instance
+ * @returns {Promise<void>}
+ * @throws {Error} Never throws
  */
 export async function chatRoutes(
   fastify: FastifyInstance
@@ -30,52 +37,64 @@ export async function chatRoutes(
           type: 'object',
           required: ['message', 'context'],
           properties: {
-            message: { type: 'string', maxLength: 1000 },
-            history: { type: 'array', maxItems: 20 },
+            message: { type: 'string', maxLength: VALIDATION.MAX_MESSAGE_LENGTH },
+            history: { type: 'array', maxItems: VALIDATION.MAX_HISTORY_ITEMS },
             context: { type: 'object' },
             sessionId: { type: 'string' },
           }
         }
       }
     },
-    async (request, reply) => {
-      const { message, history = [], context, sessionId } = request.body
-
-      // Sanitize input
-      const sanitizedMessage = sanitizeString(message, 1000)
-      if (!sanitizedMessage) {
-        return reply.status(400).send({
-          error: 'Message cannot be empty',
-          code: 'VALIDATION_ERROR',
-        })
-      }
-
-      // Normalize country to match VALID_COUNTRIES for internal logic
-      const countryMap: Record<string, string> = { 'in': 'india', 'us': 'usa', 'uk': 'uk', 'eu': 'eu' }
-      const normalizedCountry = countryMap[context?.country?.toLowerCase() ?? ''] || context?.country?.toLowerCase()
-      context.country = normalizedCountry as any // TypeScript bypass since we validate right below
-
-      // Validate country
-      if (!isValidCountry(normalizedCountry)) {
-        return reply.status(400).send({
-          error: 'Invalid country selection',
-          code: 'VALIDATION_ERROR',
-        })
-      }
-
-      // Call Gemini
-      const response = await chat(sanitizedMessage, history, context)
-
-      // Log event async (non-blocking)
-      logEvent({
-        eventType: 'chat_message',
-        sessionId: sessionId ?? 'anonymous',
-        country: context.country,
-        plainLanguageMode: context.plainLanguageMode,
-        timestamp: new Date().toISOString(),
-      }).catch(() => {}) // Never block on logging failure
-
-      return reply.send(response)
-    }
+    handleChatRequest
   )
+}
+
+/**
+ * @description Handles the incoming chat request, validates it, and routes to Gemini
+ * @param {FastifyRequest<{ Body: ChatBody }>} request - The fastify request
+ * @param {FastifyReply} reply - The fastify reply
+ * @returns {Promise<FastifyReply>} The resolved reply
+ */
+async function handleChatRequest(
+  request: FastifyRequest<{ Body: ChatBody }>,
+  reply: FastifyReply
+): Promise<FastifyReply> {
+  try {
+    const { message, history = [], context, sessionId } = request.body
+
+    const sanitizedMessage = sanitizeString(message, VALIDATION.MAX_MESSAGE_LENGTH)
+    if (!sanitizedMessage) {
+      throw new ValidationError('Message cannot be empty')
+    }
+
+    const countryMap: Record<string, string> = { 'in': 'india', 'us': 'usa', 'uk': 'uk', 'eu': 'eu' }
+    const lowerCountry = context?.country?.toLowerCase() ?? ''
+    const normalizedCountry = countryMap[lowerCountry] || lowerCountry
+
+    if (!isValidCountry(normalizedCountry)) {
+      throw new ValidationError('Invalid country selection')
+    }
+
+    context.country = normalizedCountry as typeof VALIDATION.VALID_COUNTRIES[number]
+    const response = await chat(sanitizedMessage, history, context)
+
+    logEvent({
+      eventType: 'chat_message',
+      sessionId: sessionId ?? 'anonymous',
+      country: context.country,
+      plainLanguageMode: context.plainLanguageMode,
+      timestamp: new Date().toISOString(),
+    }).catch(() => {})
+
+    return reply.status(HTTP_STATUS.OK).send(response)
+  } catch (err: unknown) {
+    logger.error('chat', 'Chat request failed', {}, err)
+    const code = err instanceof ElectEduError ? err.code : 'INTERNAL_ERROR'
+    const statusCode = err instanceof ElectEduError ? err.statusCode : HTTP_STATUS.INTERNAL_ERROR
+    
+    return reply.status(statusCode).send({
+      error: 'Internal server error',
+      code,
+    })
+  }
 }

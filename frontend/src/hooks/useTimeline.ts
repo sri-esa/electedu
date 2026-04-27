@@ -50,6 +50,13 @@ const FALLBACK_NODES: TimelineNode[] = [
   }
 ];
 
+/**
+ * @description Custom hook to fetch and manage timeline node states for a specific election
+ * @param {Country | string} country - The country code for the timeline
+ * @param {string} year - The election year
+ * @returns {object} Timeline state (nodes, selectedNodeId, selectNode, isLoading, error)
+ * @throws {Error} Never throws, falls back to static data on failure
+ */
 export function useTimeline(country: Country | string, year: string) {
   const { setAppState } = useSettingsStore();
   const [nodes, setNodes] = useState<TimelineNode[]>([]);

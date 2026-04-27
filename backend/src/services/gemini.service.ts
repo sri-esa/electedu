@@ -6,13 +6,16 @@
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import { buildSystemPrompt, PromptContext } from './prompt.service'
 import { createHash } from 'crypto'
+import { CACHE_CONFIG } from '../constants'
+import { createLogger } from '../logger'
+import { GeminiError } from '../errors'
+
+const logger = createLogger('gemini-service')
 
 const responseCache = new Map<string, {
   response: ChatResponse
   cachedAt: number
 }>()
-
-const CACHE_TTL_MS = 5 * 60 * 1000 // 5 minutes
 
 export let cacheHits = 0
 export let totalRequests = 0
@@ -27,6 +30,10 @@ function buildCacheKey(
     .digest('hex')
 }
 
+/**
+ * @description Retrieves the current size of the response cache
+ * @returns {number} The number of items in the cache
+ */
 export function getCacheSize(): number {
   return responseCache.size
 }
@@ -34,11 +41,11 @@ export function getCacheSize(): number {
 setInterval(() => {
   const now = Date.now()
   for (const [key, value] of responseCache.entries()) {
-    if (now - value.cachedAt > CACHE_TTL_MS) {
+    if (now - value.cachedAt > CACHE_CONFIG.GEMINI_TTL_MS) {
       responseCache.delete(key)
     }
   }
-}, 10 * 60 * 1000)
+}, CACHE_CONFIG.CLEANUP_INTERVAL_MS)
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
 
@@ -56,11 +63,11 @@ export interface ChatResponse {
 
 /**
  * @description Sends a message to Gemini with full 4-layer prompt
- * @param message - User's message text
- * @param history - Previous conversation messages
- * @param context - User session context for prompt construction
- * @returns Formatted response with chips and citations
- * @throws VenueSystemError on API failure
+ * @param {string} message - User's message text
+ * @param {ChatMessage[]} history - Previous conversation messages
+ * @param {PromptContext} context - User session context for prompt construction
+ * @returns {Promise<ChatResponse>} Formatted response with chips and citations
+ * @throws {GeminiError} when the Gemini API request fails
  */
 export async function chat(
   message: string,
@@ -70,57 +77,60 @@ export async function chat(
   totalRequests++
   const cacheKey = buildCacheKey(message, context.country, context.plainLanguageMode ?? false)
   const cached = responseCache.get(cacheKey)
-  if (cached && Date.now() - cached.cachedAt < CACHE_TTL_MS) {
+  
+  if (cached && Date.now() - cached.cachedAt < CACHE_CONFIG.GEMINI_TTL_MS) {
     cacheHits++
     return cached.response
   }
 
   try {
-    const systemPrompt = await buildSystemPrompt(context)
-    
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-flash-latest',
-      systemInstruction: systemPrompt,
-      generationConfig: {
-        maxOutputTokens: 600,
-        temperature: 0.3, // Low temp for factual accuracy
-        topP: 0.8,
-      },
-    })
-
-    const geminiHistory = history.map(msg => ({
-      role: msg.role === 'assistant' ? 'model' : 'user',
-      parts: [{ text: msg.content }],
-    }))
-
-    const chatSession = model.startChat({
-      history: geminiHistory,
-    })
-
-    const result = await chatSession.sendMessage(message)
-    const rawText = result.response.text()
-
+    const rawText = await callGeminiAPI(message, history, context)
     const response = parseGeminiResponse(rawText)
     responseCache.set(cacheKey, { response, cachedAt: Date.now() })
     return response
   } catch (error) {
-    console.error(JSON.stringify({
-      level: 'error',
-      service: 'gemini',
-      operation: 'chat',
-      error: error instanceof Error ? error.message : 'Unknown',
-      timestamp: new Date().toISOString(),
-    }))
-    throw error
+    logger.error('chat', 'Gemini API failed', { country: context.country }, error)
+    throw new GeminiError('Failed to generate response from Gemini', { originalError: error instanceof Error ? error.message : 'Unknown' })
   }
 }
 
 /**
- * @description Parses Gemini response to extract chips and citations
- * @param rawText - Raw text from Gemini API
- * @returns Structured response object
+ * @description Internal helper to execute the Gemini API request
+ * @param {string} message - User's message text
+ * @param {ChatMessage[]} history - Previous conversation messages
+ * @param {PromptContext} context - User session context
+ * @returns {Promise<string>} The raw text response from Gemini
  */
-function parseGeminiResponse(rawText: string): ChatResponse {
+async function callGeminiAPI(message: string, history: ChatMessage[], context: PromptContext): Promise<string> {
+  const systemPrompt = await buildSystemPrompt(context)
+    
+  const model = genAI.getGenerativeModel({
+    model: 'gemini-flash-latest',
+    systemInstruction: systemPrompt,
+    generationConfig: {
+      maxOutputTokens: 600,
+      temperature: 0.3, // Low temp for factual accuracy
+      topP: 0.8,
+    },
+  })
+
+  const geminiHistory = history.map(msg => ({
+    role: msg.role === 'assistant' ? 'model' : 'user',
+    parts: [{ text: msg.content }],
+  }))
+
+  const chatSession = model.startChat({ history: geminiHistory })
+  const result = await chatSession.sendMessage(message)
+  return result.response.text()
+}
+
+/**
+ * @description Parses Gemini response to extract chips and citations
+ * @param {string} rawText - Raw text from Gemini API
+ * @returns {ChatResponse} Structured response object containing text, chips, and citations
+ * @throws {Error} Never throws directly, returns empty arrays if parsing fails
+ */
+export function parseGeminiResponse(rawText: string): ChatResponse {
   // Extract CHIPS: ["Q1?", "Q2?", "Q3?"] pattern
   const chipsMatch = rawText.match(/CHIPS:\s*\[([^\]]+)\]/)
   const chips: string[] = []

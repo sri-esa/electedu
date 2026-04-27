@@ -5,33 +5,33 @@ describe('DataLoader', () => {
     it('should load india_2024 data successfully', async () => {
       const data = await loadElectionData('india')
       expect(data).toBeDefined()
-      expect((data as any).election).toBeDefined()
+      expect((data as { election?: unknown }).election).toBeDefined()
     })
 
-    it('should return empty object for unknown country', async () => {
-      const data = await loadElectionData('unknown_country')
-      expect(data).toEqual({})
+    it('should throw DataLoadError for unknown country', async () => {
+      await expect(loadElectionData('unknown_country')).rejects.toThrow('Failed to load election data for unknown_country')
     })
   })
 
   describe('loadFAQData', () => {
     it('should load india FAQ with items', async () => {
       const faq = await loadFAQData('india')
-      expect(Array.isArray((faq as any).faqs)).toBe(true)
-      expect((faq as any).faqs.length).toBeGreaterThan(0)
+      const faqData = faq as { faqs?: unknown[] }
+      expect(Array.isArray(faqData.faqs)).toBe(true)
+      expect(faqData.faqs!.length).toBeGreaterThan(0)
     })
 
-    it('should return empty faqs array for unknown country', async () => {
-      const faq = await loadFAQData('unknown')
-      expect((faq as any).faqs ?? []).toEqual([])
+    it('should throw DataLoadError for unknown country', async () => {
+      await expect(loadFAQData('unknown')).rejects.toThrow('Failed to load FAQ data for unknown')
     })
   })
 
   describe('loadTimelineData', () => {
     it('should load india 2024 timeline nodes', async () => {
       const timeline = await loadTimelineData('india', '2024')
-      expect(Array.isArray((timeline as any).nodes)).toBe(true)
-      expect((timeline as any).nodes.length).toBeGreaterThan(0)
+      const timelineData = timeline as { nodes?: unknown[] }
+      expect(Array.isArray(timelineData.nodes)).toBe(true)
+      expect(timelineData.nodes!.length).toBeGreaterThan(0)
     })
   })
 

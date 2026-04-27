@@ -27,9 +27,9 @@ export interface ChatApiResponse {
 
 /**
  * @description Sends chat message to ElectEdu backend
- * @param request - Chat request with message and context
- * @returns AI response with chips and citations
- * @throws Error triggers OFFLINE_FALLBACK state (REQ-10)
+ * @param {ChatRequest} request - Chat request with message and context
+ * @returns {Promise<ChatApiResponse>} AI response with chips and citations
+ * @throws {Error} triggers OFFLINE_FALLBACK state (REQ-10) when timeout or failure occurs
  */
 export async function sendChatMessage(
   request: ChatRequest
@@ -62,8 +62,9 @@ export async function sendChatMessage(
 
 /**
  * @description Fetches FAQ data for offline fallback (REQ-10)
- * @param country - Country code for FAQ selection
- * @returns Array of FAQ items
+ * @param {Country} country - Country code for FAQ selection
+ * @returns {Promise<unknown>} Array of FAQ items
+ * @throws {Error} On network failure
  */
 export async function fetchFAQ(country: Country) {
   const response = await fetch(`${BACKEND_URL}/api/faq/${country}`)
@@ -72,9 +73,10 @@ export async function fetchFAQ(country: Country) {
 
 /**
  * @description Fetches election timeline data
- * @param country - Country code
- * @param year - Election year
- * @returns Timeline nodes array
+ * @param {Country} country - Country code
+ * @param {number} year - Election year
+ * @returns {Promise<unknown>} Timeline nodes array
+ * @throws {Error} On network failure
  */
 export async function fetchTimeline(country: Country, year: number) {
   const response = await fetch(

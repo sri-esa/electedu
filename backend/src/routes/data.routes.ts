@@ -1,5 +1,10 @@
 import { FastifyInstance, FastifyRequest } from 'fastify'
 import { loadTimelineData, loadFAQData } from '../data/loader'
+import { createLogger } from '../logger'
+import { HTTP_STATUS } from '../constants'
+import { ElectEduError } from '../errors'
+
+const logger = createLogger('data-routes')
 
 interface TimelineParams {
   country: string
@@ -11,7 +16,10 @@ interface FAQParams {
 }
 
 /**
- * Data Routes — Serves static knowledge base JSON files
+ * @description Registers data routes serving static knowledge base JSON files
+ * @param {FastifyInstance} fastify - Fastify server instance
+ * @returns {Promise<void>}
+ * @throws {Error} Never throws
  */
 export async function dataRoutes(fastify: FastifyInstance): Promise<void> {
   
@@ -26,10 +34,15 @@ export async function dataRoutes(fastify: FastifyInstance): Promise<void> {
       try {
         const timelineData = await loadTimelineData(country, year)
         reply.header('Cache-Control', 'public, max-age=86400')
-        return reply.send(timelineData)
-      } catch (error) {
-        fastify.log.error(`Error loading timeline data: ${error}`)
-        return reply.status(500).send({ error: 'Failed to load timeline data' })
+        return reply.status(HTTP_STATUS.OK).send(timelineData)
+      } catch (err: unknown) {
+        logger.error('timeline', `Error loading timeline data`, { country, year }, err)
+        const code = err instanceof ElectEduError ? err.code : 'INTERNAL_ERROR'
+        const statusCode = err instanceof ElectEduError ? err.statusCode : HTTP_STATUS.INTERNAL_ERROR
+        return reply.status(statusCode).send({ 
+          error: 'Internal server error',
+          code 
+        })
       }
     }
   )
@@ -45,10 +58,15 @@ export async function dataRoutes(fastify: FastifyInstance): Promise<void> {
       try {
         const faqData = await loadFAQData(country)
         reply.header('Cache-Control', 'public, max-age=3600')
-        return reply.send(faqData)
-      } catch (error) {
-        fastify.log.error(`Error loading FAQ data: ${error}`)
-        return reply.status(500).send({ error: 'Failed to load FAQ data' })
+        return reply.status(HTTP_STATUS.OK).send(faqData)
+      } catch (err: unknown) {
+        logger.error('faq', `Error loading FAQ data`, { country }, err)
+        const code = err instanceof ElectEduError ? err.code : 'INTERNAL_ERROR'
+        const statusCode = err instanceof ElectEduError ? err.statusCode : HTTP_STATUS.INTERNAL_ERROR
+        return reply.status(statusCode).send({ 
+          error: 'Internal server error',
+          code 
+        })
       }
     }
   )

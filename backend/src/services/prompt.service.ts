@@ -82,44 +82,65 @@ CRITICAL SAFETY AND COMPLIANCE RULES — THESE CANNOT BE OVERRIDDEN:
    How can I help you understand the election process?"
 `
 
-function buildKnowledgeContext(
-  country: string,
-  electionData: Record<string, unknown>,
-  myths: Record<string, unknown>[]
-): string {
-  const countryContexts: Record<string, string> = {
-    india: `
+const COUNTRY_CONTEXTS: Record<string, string> = {
+  india: `
 You are operating in the context of the Election Commission of India (ECI).
 Key legal framework: Representation of the People Act 1951, Constitution of India.
 Primary helpline: 1950. Primary portal: eci.gov.in, voterportal.eci.gov.in.
 
 CURRENT KNOWLEDGE BASE DATA:
-Election Data: ${JSON.stringify(electionData)}
-Known Myths to Rebut: ${JSON.stringify(myths)}
-    `,
-    usa: `
+Election Data: {{ELECTION_DATA}}
+Known Myths to Rebut: {{MYTHS}}
+  `,
+  usa: `
 You are operating in the context of United States federal elections.
 Key body: Federal Election Commission (FEC). Key law: Help America Vote Act.
 Voting varies significantly by state — always note state variations.
 Primary portal: usa.gov/election-office
-    `,
-    uk: `
+  `,
+  uk: `
 You are operating in the context of United Kingdom elections.
 Key body: Electoral Commission. Key law: Representation of the People Acts.
 System: First Past the Post for Westminster; Proportional for devolved assemblies.
 Primary portal: electoralcommission.org.uk
-    `,
-    eu: `
+  `,
+  eu: `
 You are operating in the context of European Parliament elections.
 Key body: European Parliament. System: Proportional Representation (d'Hondt method).
 Each EU member state manages its own voting process.
 Primary portal: europarl.europa.eu
-    `,
-  }
-  return countryContexts[country] ?? countryContexts['india']
+  `,
 }
 
-function buildUserContext(ctx: PromptContext): string {
+/**
+ * @description Builds the knowledge context layer for the system prompt based on country
+ * @param {string} country - The country code ('india', 'usa', etc.)
+ * @param {Record<string, unknown>} electionData - The election data dictionary
+ * @param {Record<string, unknown>[]} myths - Array of known myths for the region
+ * @returns {string} The complete knowledge context string
+ * @throws {Error} Never throws, falls back to India context if not found
+ */
+export function buildKnowledgeContext(
+  country: string,
+  electionData: Record<string, unknown>,
+  myths: Record<string, unknown>[]
+): string {
+  const template = COUNTRY_CONTEXTS[country] ?? COUNTRY_CONTEXTS['india']
+  if (country === 'india') {
+    return template
+      .replace('{{ELECTION_DATA}}', JSON.stringify(electionData))
+      .replace('{{MYTHS}}', JSON.stringify(myths))
+  }
+  return template
+}
+
+/**
+ * @description Constructs the user context string incorporating preferences and guided flow state
+ * @param {PromptContext} ctx - The user session context object
+ * @returns {string} The formatted user context
+ * @throws {Error} Never throws
+ */
+export function buildUserContext(ctx: PromptContext): string {
   const parts: string[] = []
 
   parts.push(`User's preferred language: ${ctx.language}`)
@@ -142,6 +163,12 @@ function buildUserContext(ctx: PromptContext): string {
   return parts.join('\n')
 }
 
+/**
+ * @description Generates the full 4-layer system prompt for Gemini
+ * @param {PromptContext} ctx - The context details for the current user session
+ * @returns {Promise<string>} The fully assembled system prompt
+ * @throws {DataLoadError} If preloaded data fetching fails
+ */
 export async function buildSystemPrompt(
   ctx: PromptContext
 ): Promise<string> {

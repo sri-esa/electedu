@@ -19,8 +19,9 @@ interface UsageEvent {
 
 /**
  * @description Logs usage event to Pub/Sub asynchronously
- * @param event - Usage event data (no PII)
- * @returns void — never throws, never blocks
+ * @param {UsageEvent} event - Usage event data (no PII)
+ * @returns {Promise<void>} void — never throws, never blocks
+ * @throws {Error} Never throws, safely catches all errors
  */
 export async function logEvent(event: UsageEvent): Promise<void> {
   if (process.env.ENABLE_PUBSUB !== 'true') return

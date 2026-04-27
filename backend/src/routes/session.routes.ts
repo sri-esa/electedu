@@ -1,10 +1,15 @@
 import { FastifyInstance } from 'fastify'
 import crypto from 'crypto'
+import { createLogger } from '../logger'
+import { HTTP_STATUS } from '../constants'
+
+const logger = createLogger('session-routes')
 
 /**
- * Session Routes — POST /api/session
- * Creates anonymous session for analytics tracking
- * PRIVACY: No PII stored — anonymous UUID only
+ * @description Registers the session route for creating anonymous analytics sessions
+ * @param {FastifyInstance} fastify - Fastify server instance
+ * @returns {Promise<void>}
+ * @throws {Error} Never throws
  */
 export async function sessionRoutes(
   fastify: FastifyInstance
@@ -23,10 +28,10 @@ export async function sessionRoutes(
         startedAt: new Date().toISOString(),
         // No IP, no device info, no PII
       })
-    } catch {
-      // Non-critical — continue without analytics
+    } catch (err: unknown) {
+      logger.warn('session', 'Failed to log session start to firestore', { sessionId }, err)
     }
 
-    return reply.send({ sessionId })
+    return reply.status(HTTP_STATUS.OK).send({ sessionId })
   })
 }

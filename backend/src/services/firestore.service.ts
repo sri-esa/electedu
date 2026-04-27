@@ -10,7 +10,8 @@ let _db: Firestore | null = null
 
 /**
  * @description Returns singleton Firestore instance
- * @returns Initialized Firestore client
+ * @returns {Firestore} Initialized Firestore client
+ * @throws {Error} Never throws
  */
 export function getFirestore(): Firestore {
   if (!_db) {

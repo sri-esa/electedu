@@ -11,9 +11,9 @@ describe('InputValidation', () => {
       expect(sanitizeString(long, 500).length).toBe(500)
     })
     it('should return empty string for non-string input', () => {
-      expect(sanitizeString(null as any)).toBe('')
-      expect(sanitizeString(undefined as any)).toBe('')
-      expect(sanitizeString(123 as any)).toBe('')
+      expect(sanitizeString(null as unknown as string)).toBe('')
+      expect(sanitizeString(undefined as unknown as string)).toBe('')
+      expect(sanitizeString(123 as unknown as string)).toBe('')
     })
     it('should trim whitespace', () => {
       expect(sanitizeString('  hello  ')).toBe('hello')
@@ -30,7 +30,7 @@ describe('InputValidation', () => {
     it('should reject invalid countries', () => {
       expect(isValidCountry('china')).toBe(false)
       expect(isValidCountry('')).toBe(false)
-      expect(isValidCountry(null as any)).toBe(false)
+      expect(isValidCountry(null as unknown as string)).toBe(false)
       expect(isValidCountry('INDIA')).toBe(true) // case insensitive
     })
   })

@@ -7,6 +7,11 @@ import { useSettingsStore } from '../store/settings.store'
 import { sendChatMessage } from '../utils/api'
 import type { Message } from '../types'
 
+/**
+ * @description Custom hook to manage chat interaction state and history
+ * @returns {object} Chat state and methods (messages, sendMessage, clearMessages, isLoading, error)
+ * @throws {Error} Never throws, catches and logs connection errors
+ */
 export function useChat() {
   const { messages, addMessage, setLoading, 
           setError, updateLastMessage, clearMessages } = useChatStore()
@@ -76,6 +81,11 @@ export function useChat() {
   }
 }
 
+/**
+ * @description Retrieves existing session ID from local storage or creates a new one
+ * @returns {string} The UUID for the current session
+ * @throws {Error} Never throws
+ */
 function getOrCreateSessionId(): string {
   const key = 'electedu-session-id'
   let id = localStorage.getItem(key)
