@@ -92,17 +92,21 @@ async function loadFAQDataFromDisk(country: string): Promise<Record<string, unkn
 }
 
 export async function loadFAQData(country: string): Promise<Record<string, unknown>> {
+  if (!isDataPreloaded) return loadFAQDataFromDisk(country)
   return (dataCache[`faq_${country}`] as Record<string, unknown>) ?? { country, faqs: [] }
 }
 
 export async function loadTimelineData(country: string, year: string): Promise<Record<string, unknown>> {
+  if (!isDataPreloaded) return loadTimelineDataFromDisk(country, year)
   return (dataCache[`timeline_${country}_${year}`] as Record<string, unknown>) ?? { timelineId: `${country}_${year}_fallback`, nodes: [] }
 }
 
 export async function loadMythRegistry(country: string): Promise<Record<string, unknown>[]> {
+  if (!isDataPreloaded) return loadMythRegistryFromDisk(country)
   return (dataCache[`myths_${country}`] as Record<string, unknown>[]) ?? []
 }
 
 export async function loadElectionData(country: string): Promise<Record<string, unknown>> {
+  if (!isDataPreloaded) return loadElectionDataFromDisk(country)
   return (dataCache[`election_${country}`] as Record<string, unknown>) ?? {}
 }

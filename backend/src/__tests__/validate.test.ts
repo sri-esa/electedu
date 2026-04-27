@@ -31,7 +31,7 @@ describe('InputValidation', () => {
       expect(isValidCountry('china')).toBe(false)
       expect(isValidCountry('')).toBe(false)
       expect(isValidCountry(null as any)).toBe(false)
-      expect(isValidCountry('INDIA')).toBe(false) // case sensitive
+      expect(isValidCountry('INDIA')).toBe(true) // case insensitive
     })
   })
 

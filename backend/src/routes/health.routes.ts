@@ -4,7 +4,7 @@
  */
 import { FastifyInstance } from 'fastify'
 import { getCacheSize, cacheHits, totalRequests as totalGeminiRequests } from '../services/gemini.service'
-import { getAverageResponseTime } from '../index'
+import { getAverageResponseTime } from '../services/metrics.service'
 import { isDataPreloaded } from '../data/loader'
 
 export async function healthRoutes(

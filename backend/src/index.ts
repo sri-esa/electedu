@@ -16,14 +16,7 @@ import { securityMiddleware } from './middleware/security'
 import { validateEnvironment } from './middleware/validate'
 import compress from '@fastify/compress'
 import { preloadAllData } from './data/loader'
-
-export let totalRequests = 0
-export let totalResponseMs = 0
-
-export function getAverageResponseTime(): number {
-  if (totalRequests === 0) return 0
-  return Math.round(totalResponseMs / totalRequests)
-}
+import { incrementMetrics } from './services/metrics.service'
 
 // Fail fast if env vars missing
 validateEnvironment([
@@ -59,8 +52,7 @@ async function bootstrap(): Promise<void> {
 
   // Response time tracking
   fastify.addHook('onResponse', async (request, reply) => {
-    totalRequests++
-    totalResponseMs += reply.elapsedTime
+    incrementMetrics(reply.elapsedTime)
   })
 
   // Security headers
