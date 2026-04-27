@@ -46,5 +46,8 @@ export function sanitizeString(
  * @returns true if valid
  */
 export function isValidCountry(country: unknown): boolean {
-  return VALID_COUNTRIES.includes(country as typeof VALID_COUNTRIES[number])
+  if (typeof country !== 'string') return false
+  const lower = country.toLowerCase()
+  return VALID_COUNTRIES.includes(lower as typeof VALID_COUNTRIES[number]) || 
+         ['in', 'us', 'uk', 'eu'].includes(lower)
 }

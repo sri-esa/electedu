@@ -3,7 +3,6 @@ import { useChat } from '../../hooks/useChat';
 import { ChatMessage } from './ChatMessage';
 import { ChatInput } from './ChatInput';
 import { SuggestionChips } from './SuggestionChips';
-import { StaticFAQCards } from '../common/StaticFAQCards';
 import { useSettingsStore } from '../../store/settings.store';
 
 const DEFAULT_SUGGESTIONS = [
@@ -13,8 +12,8 @@ const DEFAULT_SUGGESTIONS = [
 ];
 
 export function ChatInterface() {
-  const { messages, sendMessage, isLoading, error } = useChat();
-  const { appState } = useSettingsStore();
+  const { messages, sendMessage, clearMessages, isLoading, error } = useChat();
+  const { plainLanguageMode } = useSettingsStore();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -24,20 +23,6 @@ export function ChatInterface() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
-
-  // If we've hit a hard fallback state via the store (offline handling)
-  if (appState === 'OFFLINE_FALLBACK') {
-    return (
-      <div className="flex-1 overflow-auto bg-civic-navy p-4">
-        <div className="max-w-4xl mx-auto space-y-6">
-          <div className="bg-red-500/10 border border-red-500/30 text-red-200 p-4 rounded-lg">
-            I'm having trouble connecting right now. Showing you our most common election questions instead.
-          </div>
-          <StaticFAQCards />
-        </div>
-      </div>
-    );
-  }
 
   const handleSend = (text: string) => {
     sendMessage(text);
@@ -56,6 +41,14 @@ export function ChatInterface() {
 
   return (
     <div className="flex-1 flex flex-col min-h-0 bg-civic-navy relative">
+      {/* Plain language active banner */}
+      {plainLanguageMode && (
+        <div className="shrink-0 bg-saffron/10 border-b border-saffron/30 text-saffron px-4 py-2 text-xs font-medium flex items-center gap-2">
+          <span>👁️</span>
+          <span>Simple Language mode is ON — Gemini will use easy, clear words</span>
+        </div>
+      )}
+
       <div 
         className="flex-1 overflow-y-auto p-4 flex flex-col"
         role="log"
@@ -108,11 +101,17 @@ export function ChatInterface() {
       
       {error && (
         <div 
-          className="absolute top-4 left-1/2 -translate-x-1/2 bg-red-500 text-white px-4 py-2 rounded-md shadow-lg text-sm z-50 animate-fade-in"
+          className="absolute top-4 left-1/2 -translate-x-1/2 bg-red-600/90 text-white px-4 py-2 rounded-md shadow-lg text-sm z-50 animate-fade-in flex items-center gap-3"
           role="alert"
           aria-live="assertive"
         >
-          {error}
+          <span>{error}</span>
+          <button
+            onClick={clearMessages}
+            className="text-xs underline hover:no-underline"
+          >
+            Clear
+          </button>
         </div>
       )}
     </div>

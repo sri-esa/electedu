@@ -37,7 +37,7 @@ export async function chat(
     const systemPrompt = await buildSystemPrompt(context)
     
     const model = genAI.getGenerativeModel({
-      model: 'gemini-1.5-flash',
+      model: 'gemini-flash-latest',
       systemInstruction: systemPrompt,
       generationConfig: {
         maxOutputTokens: 600,

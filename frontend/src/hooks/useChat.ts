@@ -9,10 +9,9 @@ import type { Message } from '../types'
 
 export function useChat() {
   const { messages, addMessage, setLoading, 
-          setError, updateLastMessage } = useChatStore()
+          setError, updateLastMessage, clearMessages } = useChatStore()
   const { country, language, plainLanguageMode,
-          guidedFlowStep, guidedFlowType,
-          setAppState } = useSettingsStore()
+          guidedFlowStep, guidedFlowType } = useSettingsStore()
   
   const sessionId = getOrCreateSessionId()
 
@@ -36,6 +35,7 @@ export function useChat() {
     }
     addMessage(loadingMsg)
     setLoading(true)
+    setError(null)
 
     try {
       const response = await sendChatMessage({
@@ -55,14 +55,13 @@ export function useChat() {
       updateLastMessage(response.text, response.chips)
       setError(null)
     } catch (error) {
-      console.error("Chat error:", error);
-      // Trigger offline fallback (REQ-10)
-      setAppState('OFFLINE_FALLBACK')
+      console.error("Chat error:", error)
+      // Show error inline in the assistant message — do NOT lock into OFFLINE_FALLBACK
       updateLastMessage(
-        "I'm having trouble connecting right now. " +
-        "Here are answers to the most common election questions:",
+        "⚠️ I couldn't reach the server right now. Please try again in a moment.",
         []
       )
+      setError('Connection error — tap to retry')
     } finally {
       setLoading(false)
     }
@@ -70,7 +69,8 @@ export function useChat() {
 
   return { 
     messages, 
-    sendMessage, 
+    sendMessage,
+    clearMessages,
     isLoading: useChatStore(s => s.isLoading),
     error: useChatStore(s => s.error) 
   }

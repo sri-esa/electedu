@@ -3,6 +3,7 @@
  * Google Services: Cloud Run, Gemini API, Firestore, Pub/Sub
  * Implements: REQ-01 (chat), REQ-10 (health/faq)
  */
+import 'dotenv/config'
 import Fastify from 'fastify'
 import cors from '@fastify/cors'
 import rateLimit from '@fastify/rate-limit'

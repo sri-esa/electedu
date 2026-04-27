@@ -1,0 +1,12 @@
+{
+  "myths": [
+    {
+      "id": "myth_001",
+      "myth": "EVMs can be hacked remotely via Bluetooth",
+      "triggerPhrases": ["evm hack", "bluetooth", "remote control", "manipulate wifi"],
+      "rebuttal": "EVMs are standalone machines with no wireless communication capabilities (no WiFi, no Bluetooth, no RF receivers). The software is permanently burned into read-only memory chips.",
+      "source": "ECI EVM Technical Whitepaper",
+      "sourceUrl": "https://eci.gov.in/files/file/XXXX-evm-whitepaper/"
+    }
+  ]
+}

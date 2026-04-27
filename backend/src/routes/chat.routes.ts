@@ -50,8 +50,13 @@ export async function chatRoutes(
         })
       }
 
+      // Normalize country to match VALID_COUNTRIES for internal logic
+      const countryMap: Record<string, string> = { 'in': 'india', 'us': 'usa', 'uk': 'uk', 'eu': 'eu' }
+      const normalizedCountry = countryMap[context?.country?.toLowerCase() ?? ''] || context?.country?.toLowerCase()
+      context.country = normalizedCountry as any // TypeScript bypass since we validate right below
+
       // Validate country
-      if (!isValidCountry(context?.country)) {
+      if (!isValidCountry(normalizedCountry)) {
         return reply.status(400).send({
           error: 'Invalid country selection',
           code: 'VALIDATION_ERROR',

@@ -9,7 +9,7 @@ FROM node:20-alpine
 WORKDIR /app
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/package.json ./
-COPY ../data ./data
+COPY --from=builder /app/data ./data
 RUN npm install --omit=dev
 ENV PORT=8080
 EXPOSE 8080
