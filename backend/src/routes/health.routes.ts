@@ -29,6 +29,8 @@ export async function healthRoutes(
         gemini: !!process.env.GEMINI_API_KEY,
         firestore: !!process.env.PROJECT_ID,
         pubsub: !!process.env.PROJECT_ID,
+        bigquery: !!process.env.PROJECT_ID,
+        textToSpeech: !!process.env.PROJECT_ID,
       },
       freeTierUsage: {
         estimatedDailyApiCalls: getCacheSize(), // Rough estimation based on cache size

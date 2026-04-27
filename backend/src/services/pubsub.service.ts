@@ -18,21 +18,18 @@ interface UsageEvent {
 }
 
 /**
- * @description Logs usage event to Pub/Sub asynchronously
- * @param {UsageEvent} event - Usage event data (no PII)
- * @returns {Promise<void>} void — never throws, never blocks
- * @throws {Error} Never throws, safely catches all errors
+ * @description Publishes usage event to Cloud Pub/Sub topic
+ * @googleService Google Cloud Pub/Sub
+ * @freeTier Counts against 10GB/month message quota
  */
 export async function logEvent(event: UsageEvent): Promise<void> {
-  if (process.env.ENABLE_PUBSUB !== 'true') return
-
   try {
     if (!_pubsub) {
       _pubsub = new PubSub({ projectId: process.env.PROJECT_ID })
     }
     const data = Buffer.from(JSON.stringify(event))
-    await _pubsub.topic(TOPIC_NAME).publish(data)
+    await _pubsub.topic(TOPIC_NAME).publishMessage({ data })
   } catch {
-    // Pub/Sub failure must never affect user experience
+    // Non-critical: Pub/Sub failure never affects user experience
   }
 }

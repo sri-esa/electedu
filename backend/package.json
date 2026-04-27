@@ -11,8 +11,10 @@
     "@fastify/compress": "^8.3.1",
     "@fastify/cors": "^9.0.0",
     "@fastify/rate-limit": "^9.0.0",
+    "@google-cloud/bigquery": "^8.1.1",
     "@google-cloud/firestore": "^7.0.0",
     "@google-cloud/pubsub": "^4.0.0",
+    "@google-cloud/text-to-speech": "^6.4.0",
     "@google/generative-ai": "^0.21.0",
     "dotenv": "^17.4.2",
     "fastify": "^4.0.0"

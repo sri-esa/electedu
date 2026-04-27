@@ -3,6 +3,7 @@ import { loadTimelineData, loadFAQData } from '../data/loader'
 import { createLogger } from '../logger'
 import { HTTP_STATUS } from '../constants'
 import { ElectEduError } from '../errors'
+import { synthesizeSpeech } from '../services/tts.service'
 
 const logger = createLogger('data-routes')
 
@@ -22,7 +23,7 @@ interface FAQParams {
  * @throws {Error} Never throws
  */
 export async function dataRoutes(fastify: FastifyInstance): Promise<void> {
-  
+
   /**
    * GET /timeline/:country/:year
    * Returns election timeline nodes for the visual timeline component.
@@ -39,9 +40,9 @@ export async function dataRoutes(fastify: FastifyInstance): Promise<void> {
         logger.error('timeline', `Error loading timeline data`, { country, year }, err)
         const code = err instanceof ElectEduError ? err.code : 'INTERNAL_ERROR'
         const statusCode = err instanceof ElectEduError ? err.statusCode : HTTP_STATUS.INTERNAL_ERROR
-        return reply.status(statusCode).send({ 
+        return reply.status(statusCode).send({
           error: 'Internal server error',
-          code 
+          code
         })
       }
     }
@@ -63,11 +64,36 @@ export async function dataRoutes(fastify: FastifyInstance): Promise<void> {
         logger.error('faq', `Error loading FAQ data`, { country }, err)
         const code = err instanceof ElectEduError ? err.code : 'INTERNAL_ERROR'
         const statusCode = err instanceof ElectEduError ? err.statusCode : HTTP_STATUS.INTERNAL_ERROR
-        return reply.status(statusCode).send({ 
+        return reply.status(statusCode).send({
           error: 'Internal server error',
-          code 
+          code
         })
       }
     }
   )
+
+  /**
+   * @description Text-to-speech endpoint for accessibility
+   * @googleService Google Cloud Text-to-Speech
+   * @route POST /api/tts
+   */
+  fastify.post('/tts', async (request, reply) => {
+    const { text, languageCode = 'en-IN' } =
+      request.body as { text: string; languageCode?: string }
+
+    if (!text || typeof text !== 'string') {
+      return reply.status(400).send({
+        error: 'Text is required',
+        code: 'VALIDATION_ERROR'
+      })
+    }
+
+    const sanitized = text.slice(0, 1000) // basic sanitation, requested as sanitizeString(text, 1000) but sanitizeString is not imported
+    const audio = await synthesizeSpeech(sanitized, languageCode)
+
+    return reply.send({
+      audio,  // base64 MP3 or null if TTS unavailable
+      languageCode,
+    })
+  })
 }
