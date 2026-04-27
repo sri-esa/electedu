@@ -8,6 +8,7 @@
     "test": "jest --coverage"
   },
   "dependencies": {
+    "@fastify/compress": "^8.3.1",
     "@fastify/cors": "^9.0.0",
     "@fastify/rate-limit": "^9.0.0",
     "@google-cloud/firestore": "^7.0.0",

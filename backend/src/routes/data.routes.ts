@@ -25,6 +25,7 @@ export async function dataRoutes(fastify: FastifyInstance): Promise<void> {
       const { country, year } = request.params
       try {
         const timelineData = await loadTimelineData(country, year)
+        reply.header('Cache-Control', 'public, max-age=86400')
         return reply.send(timelineData)
       } catch (error) {
         fastify.log.error(`Error loading timeline data: ${error}`)
@@ -43,6 +44,7 @@ export async function dataRoutes(fastify: FastifyInstance): Promise<void> {
       const { country } = request.params
       try {
         const faqData = await loadFAQData(country)
+        reply.header('Cache-Control', 'public, max-age=3600')
         return reply.send(faqData)
       } catch (error) {
         fastify.log.error(`Error loading FAQ data: ${error}`)

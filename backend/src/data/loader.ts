@@ -6,7 +6,31 @@ import * as path from 'path'
  * @param country The country code
  * @returns JSON object containing election data
  */
-export async function loadElectionData(country: string): Promise<Record<string, unknown>> {
+const dataCache: Record<string, unknown> = {}
+
+export let isDataPreloaded = false
+
+export async function preloadAllData(): Promise<void> {
+  const countries = ['india', 'usa', 'uk', 'eu']
+  
+  for (const country of countries) {
+    dataCache[`faq_${country}`] = await loadFAQDataFromDisk(country)
+    dataCache[`myths_${country}`] = await loadMythRegistryFromDisk(country)
+  }
+  
+  // Load timeline data
+  dataCache['timeline_india_2024'] = await loadTimelineDataFromDisk('india', '2024')
+  
+  isDataPreloaded = true
+  console.log(JSON.stringify({
+    level: 'info',
+    message: 'All data preloaded into memory',
+    keys: Object.keys(dataCache).length,
+    timestamp: new Date().toISOString()
+  }))
+}
+
+async function loadElectionDataFromDisk(country: string): Promise<Record<string, unknown>> {
   try {
     const filePath = path.join(__dirname, '../../data/elections', `${country}_2024.json`)
     const data = await fs.readFile(filePath, 'utf-8')
@@ -22,7 +46,7 @@ export async function loadElectionData(country: string): Promise<Record<string, 
  * @param country The country code
  * @returns Array of myth objects
  */
-export async function loadMythRegistry(country: string): Promise<Record<string, unknown>[]> {
+async function loadMythRegistryFromDisk(country: string): Promise<Record<string, unknown>[]> {
   try {
     const filePath = path.join(__dirname, '../../data/myths', `${country}_myths.json`)
     const data = await fs.readFile(filePath, 'utf-8')
@@ -40,7 +64,7 @@ export async function loadMythRegistry(country: string): Promise<Record<string, 
  * @param year The election year
  * @returns JSON object with timeline nodes
  */
-export async function loadTimelineData(country: string, year: string): Promise<Record<string, unknown>> {
+async function loadTimelineDataFromDisk(country: string, year: string): Promise<Record<string, unknown>> {
   try {
     const filePath = path.join(__dirname, '../../data/timeline', `${country}_${year}_timeline.json`)
     const data = await fs.readFile(filePath, 'utf-8')
@@ -56,7 +80,7 @@ export async function loadTimelineData(country: string, year: string): Promise<R
  * @param country The country code
  * @returns JSON object with FAQs
  */
-export async function loadFAQData(country: string): Promise<Record<string, unknown>> {
+async function loadFAQDataFromDisk(country: string): Promise<Record<string, unknown>> {
   try {
     const filePath = path.join(__dirname, '../../data/faq', `${country}_faq.json`)
     const data = await fs.readFile(filePath, 'utf-8')
@@ -65,4 +89,20 @@ export async function loadFAQData(country: string): Promise<Record<string, unkno
     console.warn(`Failed to load FAQ data for ${country}`, error)
     return { country, faqs: [] }
   }
+}
+
+export async function loadFAQData(country: string): Promise<Record<string, unknown>> {
+  return (dataCache[`faq_${country}`] as Record<string, unknown>) ?? { country, faqs: [] }
+}
+
+export async function loadTimelineData(country: string, year: string): Promise<Record<string, unknown>> {
+  return (dataCache[`timeline_${country}_${year}`] as Record<string, unknown>) ?? { timelineId: `${country}_${year}_fallback`, nodes: [] }
+}
+
+export async function loadMythRegistry(country: string): Promise<Record<string, unknown>[]> {
+  return (dataCache[`myths_${country}`] as Record<string, unknown>[]) ?? []
+}
+
+export async function loadElectionData(country: string): Promise<Record<string, unknown>> {
+  return (dataCache[`election_${country}`] as Record<string, unknown>) ?? {}
 }

@@ -5,6 +5,40 @@
  */
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import { buildSystemPrompt, PromptContext } from './prompt.service'
+import { createHash } from 'crypto'
+
+const responseCache = new Map<string, {
+  response: ChatResponse
+  cachedAt: number
+}>()
+
+const CACHE_TTL_MS = 5 * 60 * 1000 // 5 minutes
+
+export let cacheHits = 0
+export let totalRequests = 0
+
+function buildCacheKey(
+  message: string,
+  country: string,
+  plainLanguageMode: boolean
+): string {
+  return createHash('md5')
+    .update(`${message.toLowerCase().trim()}:${country}:${plainLanguageMode}`)
+    .digest('hex')
+}
+
+export function getCacheSize(): number {
+  return responseCache.size
+}
+
+setInterval(() => {
+  const now = Date.now()
+  for (const [key, value] of responseCache.entries()) {
+    if (now - value.cachedAt > CACHE_TTL_MS) {
+      responseCache.delete(key)
+    }
+  }
+}, 10 * 60 * 1000)
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
 
@@ -33,6 +67,14 @@ export async function chat(
   history: ChatMessage[],
   context: PromptContext
 ): Promise<ChatResponse> {
+  totalRequests++
+  const cacheKey = buildCacheKey(message, context.country, context.plainLanguageMode ?? false)
+  const cached = responseCache.get(cacheKey)
+  if (cached && Date.now() - cached.cachedAt < CACHE_TTL_MS) {
+    cacheHits++
+    return cached.response
+  }
+
   try {
     const systemPrompt = await buildSystemPrompt(context)
     
@@ -58,7 +100,9 @@ export async function chat(
     const result = await chatSession.sendMessage(message)
     const rawText = result.response.text()
 
-    return parseGeminiResponse(rawText)
+    const response = parseGeminiResponse(rawText)
+    responseCache.set(cacheKey, { response, cachedAt: Date.now() })
+    return response
   } catch (error) {
     console.error(JSON.stringify({
       level: 'error',

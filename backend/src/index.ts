@@ -14,6 +14,16 @@ import { quizRoutes } from './routes/quiz.routes'
 import { healthRoutes } from './routes/health.routes'
 import { securityMiddleware } from './middleware/security'
 import { validateEnvironment } from './middleware/validate'
+import compress from '@fastify/compress'
+import { preloadAllData } from './data/loader'
+
+export let totalRequests = 0
+export let totalResponseMs = 0
+
+export function getAverageResponseTime(): number {
+  if (totalRequests === 0) return 0
+  return Math.round(totalResponseMs / totalRequests)
+}
 
 // Fail fast if env vars missing
 validateEnvironment([
@@ -37,6 +47,22 @@ const fastify = Fastify({
 })
 
 async function bootstrap(): Promise<void> {
+  // Compression
+  await fastify.register(compress, {
+    global: true,
+    threshold: 1024, // Only compress responses > 1KB
+    encodings: ['gzip', 'deflate']
+  })
+
+  // Preload all static data
+  await preloadAllData()
+
+  // Response time tracking
+  fastify.addHook('onResponse', async (request, reply) => {
+    totalRequests++
+    totalResponseMs += reply.elapsedTime
+  })
+
   // Security headers
   await securityMiddleware(fastify)
 
